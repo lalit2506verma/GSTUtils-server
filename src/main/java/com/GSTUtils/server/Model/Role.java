@@ -1,6 +1,9 @@
 package com.GSTUtils.server.Model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 
 import jakarta.persistence.CascadeType;
@@ -23,6 +26,7 @@ public class Role {
 	
 	// Role can have many userRoles -> one role to many userRoles
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
+	@JsonIgnore
 	private List<UserRole> userRoles = new ArrayList<>();
 	
 	public Role() {
@@ -48,6 +52,14 @@ public class Role {
 	
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+
+	public List<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(List<UserRole> userRoles) {
+		this.userRoles = userRoles;
 	}
 
 }
