@@ -53,7 +53,7 @@ public class FastApiExcelServiceImpl implements FastApiExcelService{
 		formDataMap.add("return_sales_file", returnSalesResource);
 		
 		return webClient.post()
-				.uri("/process/")
+				.uri("/process-file/")
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.body(BodyInserters.fromMultipartData(formDataMap))
 				.retrieve()

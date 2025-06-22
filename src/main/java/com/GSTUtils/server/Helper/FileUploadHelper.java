@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class FileUploadHelper {
 	
-	public final String UPLOAD_DIR = "C:\\Users\\III S I\\Project\\server\\src\\main\\resources\\static\\uploadExcelFile";
+	public final String UPLOAD_DIR = "D:\\Projects\\GSTUtils-server\\src\\main\\resources\\static\\uploadExcelFile";
 	
 	public boolean uploadFile(MultipartFile multipartFile) {
 		

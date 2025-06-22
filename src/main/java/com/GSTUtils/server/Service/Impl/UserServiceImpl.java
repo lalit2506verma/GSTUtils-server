@@ -9,14 +9,14 @@ import com.GSTUtils.server.Exception.UserNotFoundException;
 import com.GSTUtils.server.Model.User;
 import com.GSTUtils.server.Model.UserRole;
 import com.GSTUtils.server.Repository.RoleRepository;
-import com.GSTUtils.server.Repository.UserRespository;
+import com.GSTUtils.server.Repository.UserRepository;
 import com.GSTUtils.server.Service.UserService;
 
 @Component
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
-	private UserRespository userRespository;
+	private UserRepository userRepository;
 	
 	@Autowired
 	private RoleRepository roleRepository;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
 	public User createUser(User user, List<UserRole> userRoles) throws Exception {
 		// First will check user is already created for not
 		String username = user.getUsername();
-		User localUser = this.userRespository.findByusername(username);
+		User localUser = this.userRepository.findByusername(username);
 		
 		if(localUser != null) {
 			// User exists
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		user.getUserRoles().addAll(userRoles);
-		localUser = this.userRespository.save(user);
+		localUser = this.userRepository.save(user);
 		
 		return localUser;
 	}
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService{
 			throw new Exception("Username does not exist !!!");
 		}
 		
-		localUser = this.userRespository.save(localUser);
+		localUser = this.userRepository.save(localUser);
 		return localUser;
 		
 	}
@@ -78,19 +78,19 @@ public class UserServiceImpl implements UserService{
 			throw new Exception("Username does not exist !!!");
 		}
 		
-		this.userRespository.delete(localUser);
+		this.userRepository.delete(localUser);
 	}
 
 	@Override
 	public User findUserByUsername(String username) {
 		
-		return this.userRespository.findByusername(username);
+		return this.userRepository.findByusername(username);
 	}
 
 	@Override
 	public User findByUserId(Long userID) {
 		
-		return this.userRespository.findById(userID).orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userID));
+		return this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userID));
 	}
 
 }
