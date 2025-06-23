@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 	
 	@PostMapping("/")
 	public User createUser(@RequestBody User user) throws Exception {
@@ -40,6 +43,9 @@ public class UserController {
 		roleList.add(userRole);
 		
 		user.setActive(true);
+
+		//BCrypting  password
+		user.setPassword(encoder.encode(user.getPassword()));
 		
 		User NewUser = this.userService.createUser(user, roleList);
 		
