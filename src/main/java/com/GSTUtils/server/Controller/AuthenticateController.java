@@ -25,6 +25,8 @@ public class AuthenticateController {
     @PostMapping("/login")
     public String generateToken(@RequestBody JWTRequest jwtRequest) {
         System.out.println("Controller hit");
+        System.out.println(jwtRequest.getUsername());
+        System.out.println(jwtRequest.getPassword());
         try {
             authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
 
