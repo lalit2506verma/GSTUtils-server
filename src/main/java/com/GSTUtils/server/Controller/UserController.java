@@ -3,7 +3,9 @@ package com.GSTUtils.server.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.GSTUtils.server.Model.GenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,27 +31,33 @@ public class UserController {
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 	
 	@PostMapping("/")
-	public User createUser(@RequestBody User user) throws Exception {
-		
-		// Creating Default Roles
-		Role role = new Role();
-		role.setRoleName("NORMAL");
-		
-		UserRole userRole = new UserRole();
-		userRole.setUser(user);
-		userRole.setRole(role);
-		
-		List<UserRole> roleList = new ArrayList<>();
-		roleList.add(userRole);
-		
-		user.setActive(true);
+	public ResponseEntity<?> createUser(@RequestBody User user) throws Exception {
+		try {
+			// Creating Default Roles
+			Role role = new Role();
+			role.setRoleName("NORMAL");
 
-		//BCrypting  password
-		user.setPassword(encoder.encode(user.getPassword()));
-		
-		User NewUser = this.userService.createUser(user, roleList);
-		
-		return NewUser;
+			UserRole userRole = new UserRole();
+			userRole.setUser(user);
+			userRole.setRole(role);
+
+			List<UserRole> roleList = new ArrayList<>();
+			roleList.add(userRole);
+
+			user.setActive(true);
+
+			//BCrypting  password
+			user.setPassword(encoder.encode(user.getPassword()));
+
+			User NewUser = this.userService.createUser(user, roleList);
+
+			return ResponseEntity.ok(new GenericResponse("success", "Registration Sucessfully Completed!"));
+		}
+		catch(Exception e){
+			return ResponseEntity
+					.badRequest()
+					.body(new GenericResponse("error", e.getMessage()));
+		}
 	}
 	
 	
