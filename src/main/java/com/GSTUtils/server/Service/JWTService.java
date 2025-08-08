@@ -12,4 +12,6 @@ public interface JWTService {
     String extractUsername(String token);
 
     boolean validateToken(String token, UserDetails userDetails);
+
+    boolean isTokenExpired(String token);
 }
