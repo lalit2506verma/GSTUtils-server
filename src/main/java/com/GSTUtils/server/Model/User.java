@@ -36,6 +36,11 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user" )
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
+
+    // Single User can save up to 20 GSTIN number
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIgnore
+    private Set<GSTINMaster> gstins = new HashSet<>();
 	
 	public User() {
 		
