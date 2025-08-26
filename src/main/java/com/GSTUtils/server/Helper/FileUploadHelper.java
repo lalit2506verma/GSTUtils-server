@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class FileUploadHelper {
 	
-	public final String UPLOAD_DIR = "D:\\Projects\\GSTUtils-server\\src\\main\\resources\\static\\uploadExcelFile";
+	public final String UPLOAD_DIR = "C:\\Users\\MSI 1\\IdeaProjects\\GSTUtils-server\\src\\main\\resources\\static\\uploadExcelFile";
 	
 	public boolean uploadFile(MultipartFile multipartFile) {
 		
@@ -29,14 +29,11 @@ public class FileUploadHelper {
 			fos.write(fileData);
 			
 			fos.close();
-			
 			flag = true;
 		}
 		catch( Exception e){
 			e.getStackTrace();
 		}
-		
-		System.out.println("File uploaded successfully");
 		
 		return flag;
 	}
