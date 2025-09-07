@@ -1,16 +1,18 @@
 package com.GSTUtils.server.Model;
 
-public class GenericResponse {
+public class GenericResponse<T> {
 
     private String status;
     private String message;
+    private T data;
 
     public GenericResponse() {
     }
 
-    public GenericResponse(String status, String message) {
+    public GenericResponse(String status, String message, T data) {
         this.status = status;
         this.message = message;
+        this.data = data;
     }
 
     public String getStatus() {
@@ -27,5 +29,13 @@ public class GenericResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }

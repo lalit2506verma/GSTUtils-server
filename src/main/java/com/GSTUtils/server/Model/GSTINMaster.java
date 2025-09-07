@@ -19,7 +19,14 @@ public class GSTINMaster {
     private String gstinNumber;
 
     @Column(nullable = false)
+    private String state;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    private String lastUsedReturnPeriod;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userID", nullable = false)
@@ -67,5 +74,29 @@ public class GSTINMaster {
 
     public void setReturns(Set<ReturnPeriod> returns) {
         this.returns = returns;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getLastUsedReturnPeriod() {
+        return lastUsedReturnPeriod;
+    }
+
+    public void setLastUsedReturnPeriod(String lastUsedReturnPeriod) {
+        this.lastUsedReturnPeriod = lastUsedReturnPeriod;
     }
 }

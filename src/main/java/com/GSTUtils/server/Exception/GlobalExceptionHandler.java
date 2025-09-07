@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<GenericResponse> handleAllException(Exception e){
+    public ResponseEntity<GenericResponse<?>> handleAllException(Exception e){
         return ResponseEntity
                 .badRequest()
-                .body(new GenericResponse("error", e.getMessage()));
+                .body(new GenericResponse<>("error", e.getMessage(), null));
     }
 }

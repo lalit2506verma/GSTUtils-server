@@ -1,16 +1,20 @@
 package com.GSTUtils.server.Service;
 
 import com.GSTUtils.server.Model.GSTINMaster;
+import com.GSTUtils.server.Model.User;
+import com.GSTUtils.server.dto.GSTINResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface GSTINMasterService {
 
     // Add new GSTIN
-    boolean createGstinMaster(GSTINMaster gstin);
+    GSTINResponse createGstinMaster(GSTINMaster gstin);
 
     // Update GSTIN details
-    GSTINMaster updateGstinMaster(GSTINMaster gstin, String gstinNumber);
+    GSTINResponse updateGstinMaster(String gstinNumber, User newUser);
 
     // find GSTIN details via GST number
     GSTINMaster findByGstinNumber(String gstinNumber);
@@ -18,5 +22,7 @@ public interface GSTINMasterService {
     // Delete record
     void deleteGstinMaster(String gstinNumber);
 
-    GSTINMaster findByGstinID(Long GstinID);
+    GSTINResponse findByGstinID(Long GstinID);
+
+    List<GSTINResponse> findAllGstinByUserId(Long userId);
 }

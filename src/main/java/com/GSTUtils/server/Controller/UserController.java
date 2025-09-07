@@ -49,14 +49,14 @@ public class UserController {
 			//BCrypting  password
 			user.setPassword(encoder.encode(user.getPassword()));
 
-			User NewUser = this.userService.createUser(user, roleList);
+			User newUser = this.userService.createUser(user, roleList);
 
-			return ResponseEntity.ok(new GenericResponse("success", "Registration Sucessfully Completed!"));
+			return ResponseEntity.ok(new GenericResponse<>("success", "Registration Sucessfully Completed!", newUser));
 		}
 		catch(Exception e){
 			return ResponseEntity
 					.badRequest()
-					.body(new GenericResponse("error", e.getMessage()));
+					.body(new GenericResponse<>("error", e.getMessage(), null));
 		}
 	}
 	
