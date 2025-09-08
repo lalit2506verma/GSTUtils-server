@@ -14,7 +14,7 @@ public interface GSTINMasterService {
     GSTINResponse createGstinMaster(GSTINMaster gstin);
 
     // Update GSTIN details
-    GSTINResponse updateGstinMaster(String gstinNumber, User newUser);
+    GSTINResponse updateGstinMaster_UserId(String gstinNumber, User newUser);
 
     // find GSTIN details via GST number
     GSTINMaster findByGstinNumber(String gstinNumber);
@@ -25,4 +25,6 @@ public interface GSTINMasterService {
     GSTINResponse findByGstinID(Long GstinID);
 
     List<GSTINResponse> findAllGstinByUserId(Long userId);
+
+    boolean updateGstinMaster(String gstinNumber);
 }

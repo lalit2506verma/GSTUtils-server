@@ -3,7 +3,7 @@ package com.GSTUtils.server.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,11 +22,9 @@ public class GSTINMaster {
     private String state;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
-    private LocalDateTime updatedAt;
-
-    private String lastUsedReturnPeriod;
+    private LocalDate updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userID", nullable = false)
@@ -52,11 +50,11 @@ public class GSTINMaster {
         this.gstinNumber = gstinNumber;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -84,19 +82,12 @@ public class GSTINMaster {
         this.state = state;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public String getLastUsedReturnPeriod() {
-        return lastUsedReturnPeriod;
-    }
-
-    public void setLastUsedReturnPeriod(String lastUsedReturnPeriod) {
-        this.lastUsedReturnPeriod = lastUsedReturnPeriod;
-    }
 }

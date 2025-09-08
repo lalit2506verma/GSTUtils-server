@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -34,8 +34,8 @@ public class GSTINController {
             User principal = AuthUtils.getCurrentUser().getUser();
             gstinMaster.setUser(principal);
 
-            gstinMaster.setCreatedAt(LocalDateTime.now());
-            gstinMaster.setUpdatedAt(LocalDateTime.now());
+            gstinMaster.setCreatedAt(LocalDate.now());
+            gstinMaster.setUpdatedAt(LocalDate.now());
 
             // saving
             GSTINResponse gstin = this.gstinMasterService.createGstinMaster(gstinMaster);
@@ -53,8 +53,8 @@ public class GSTINController {
         }
     }
 
-    @PostMapping("/{gstin}/{userID}")
-    public ResponseEntity<?> updateGstinMaster(@PathVariable("gstin") String gstinNumber, @PathVariable("userID") Long userID){
+    @PutMapping("/{gstin}/user/{userID}")
+    public ResponseEntity<?> updateGstinMaster_UserId(@PathVariable("gstin") String gstinNumber, @PathVariable("userID") Long userID){
         // check new user exist or not
         User newUser = this.userService.findByUserId(userID);
 
@@ -65,7 +65,7 @@ public class GSTINController {
 
         try {
             // User Exist
-            GSTINResponse gstin = this.gstinMasterService.updateGstinMaster(gstinNumber, newUser);
+            GSTINResponse gstin = this.gstinMasterService.updateGstinMaster_UserId(gstinNumber, newUser);
 
             return ResponseEntity.ok(new GenericResponse<>("SUCCESS", "GSTIN updated", gstin));
 
@@ -123,6 +123,22 @@ public class GSTINController {
             List<GSTINResponse> list = this.gstinMasterService.findAllGstinByUserId(principalId);
 
             return ResponseEntity.ok(new GenericResponse<>("SUCCESS", "List of all Gstin fetched successfully", list));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PutMapping("/{gstinNumber}")
+    public ResponseEntity<?> updateGSTINMaster(@PathVariable("gstinNumber") String gstinNumber){
+        try{
+            boolean isUpdated = this.gstinMasterService.updateGstinMaster(gstinNumber);
+            if(isUpdated){
+                return ResponseEntity.ok(new GenericResponse<>("SUCCESS", "GSTIN is updated", null));
+            }
+
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(
+                    new GenericResponse<>("FAILURE", "GSTIN Updated Date is not Modified", "null")
+            );
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -9,7 +9,7 @@ import com.GSTUtils.server.dto.GSTINResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class GSTINMasterServiceImpl implements GSTINMasterService {
     1 GSTIN -> 1 User
      */
     @Override
-    public GSTINResponse updateGstinMaster(String gstinNumber, User newUser) {
+    public GSTINResponse updateGstinMaster_UserId(String gstinNumber, User newUser) {
 
         GSTINMaster gstinMaster = findByGstinNumber(gstinNumber);
 
@@ -58,7 +58,7 @@ public class GSTINMasterServiceImpl implements GSTINMasterService {
 
         // Update the GSTIN Master
         gstinMaster.setUser(newUser);
-        gstinMaster.setUpdatedAt(LocalDateTime.now());
+        gstinMaster.setUpdatedAt(LocalDate.now());
 
         GSTINMaster gstin = this.gstinMasterRepository.save(gstinMaster);
 
@@ -104,5 +104,25 @@ public class GSTINMasterServiceImpl implements GSTINMasterService {
         }
 
         return dtoList;
+    }
+
+    @Override
+    public boolean updateGstinMaster(String gstinNumber) {
+        // check GSTIN number exists
+        GSTINMaster gstin = findByGstinNumber(gstinNumber);
+        if(gstin == null){
+            System.out.println("Gstin didn't updated");
+            return false;
+        }
+
+        // gstin Exist
+        if(!gstin.getUpdatedAt().isEqual(LocalDate.now())){
+            // if updatedDate and current date is not same  then only call database to same the GSTINMaster
+            gstin.setUpdatedAt(LocalDate.now());
+            this.gstinMasterRepository.save(gstin);
+        }
+
+        return true;
+
     }
 }
