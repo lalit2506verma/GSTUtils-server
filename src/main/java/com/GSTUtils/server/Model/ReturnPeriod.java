@@ -1,10 +1,12 @@
 package com.GSTUtils.server.Model;
 
+import com.GSTUtils.server.Helper.FilingFrequency;
 import com.GSTUtils.server.Helper.ReturnMonth;
 import com.GSTUtils.server.Helper.ReturnStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,37 +17,45 @@ public class ReturnPeriod {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long returnID;
+    private Long returnPeriodID;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "return_month", length = 20)
     private ReturnMonth returnMonth;
 
-    @Column(nullable = false, name="return_year", columnDefinition = "YEAR(4)")
-    private int year;
+    @Column(nullable = false, name="return_year", length = 4)
+    private int returnYear;
 
     @Enumerated(EnumType.STRING)
     private ReturnStatus status;
 
-    private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
+    private FilingFrequency frequency;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gstinID", nullable = false)
     private GSTINMaster gstin;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "returnPeriod")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "returnPeriod")
     @JsonIgnore
     private List<UploadFile> files = new ArrayList<>();
+
+    // contain multiple GSTIN_filing from each ecom platform
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "returnPeriod")
+    @JsonIgnore
+    private List<GST_Filing> filings = new ArrayList<>();
+
+    // Getters and Setters
 
     public ReturnPeriod() {
     }
 
-    public Long getReturnID() {
-        return returnID;
+    public Long getReturnPeriodID() {
+        return returnPeriodID;
     }
 
-    public void setReturnID(Long returnID) {
-        this.returnID = returnID;
+    public void setReturnPeriodID(Long returnPeriodID) {
+        this.returnPeriodID = returnPeriodID;
     }
 
     public ReturnMonth getReturnMonth() {
@@ -56,12 +66,12 @@ public class ReturnPeriod {
         this.returnMonth = returnMonth;
     }
 
-    public int getYear() {
-        return year;
+    public int getReturnYear() {
+        return returnYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setReturnYear(int returnYear) {
+        this.returnYear = returnYear;
     }
 
     public ReturnStatus getStatus() {
@@ -72,12 +82,12 @@ public class ReturnPeriod {
         this.status = status;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public FilingFrequency getFrequency() {
+        return frequency;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setFrequency(FilingFrequency frequency) {
+        this.frequency = frequency;
     }
 
     public GSTINMaster getGstin() {
@@ -94,5 +104,13 @@ public class ReturnPeriod {
 
     public void setFiles(List<UploadFile> files) {
         this.files = files;
+    }
+
+    public List<GST_Filing> getFilings() {
+        return filings;
+    }
+
+    public void setFilings(List<GST_Filing> filings) {
+        this.filings = filings;
     }
 }

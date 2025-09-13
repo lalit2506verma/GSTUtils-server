@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,6 +35,10 @@ public class GSTINMaster {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "gstin")
     @JsonIgnore
     private Set<ReturnPeriod> returns = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "gstinMaster")
+    @JsonIgnore
+    private List<GST_Filing> gstinFiling = new ArrayList<>();
 
     public Long getGstinID() {
         return gstinID;
@@ -90,4 +96,11 @@ public class GSTINMaster {
         this.updatedAt = updatedAt;
     }
 
+    public List<GST_Filing> getGstinFiling() {
+        return gstinFiling;
+    }
+
+    public void setGstinFiling(List<GST_Filing> gstinFiling) {
+        this.gstinFiling = gstinFiling;
+    }
 }
