@@ -40,6 +40,20 @@ public class GSTINMaster {
     @JsonIgnore
     private List<GST_Filing> gstinFiling = new ArrayList<>();
 
+    // CONSTRUCTOR
+    public GSTINMaster() {
+    }
+
+    public GSTINMaster(Long gstinID, String gstinNumber, String state, LocalDate createdAt, LocalDate updatedAt, User user) {
+        this.gstinID = gstinID;
+        this.gstinNumber = gstinNumber;
+        this.state = state;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.user = user;
+    }
+
+    // GETTERS AND SETTERS
     public Long getGstinID() {
         return gstinID;
     }

@@ -1,5 +1,5 @@
 package com.GSTUtils.server.Helper;
 
-public enum FilingFrequency {
+public enum Frequency {
     MONTHLY, QUARTERLY
 }

@@ -26,10 +26,6 @@ public class Platform {
     @JsonIgnore
     private List<GST_Filing> filings = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "platform")
-    @JsonIgnore
-    private List<UploadFile> files = new ArrayList<>();
-
     public Platform() {
     }
 
@@ -70,14 +66,6 @@ public class Platform {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public List<UploadFile> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<UploadFile> files) {
-        this.files = files;
     }
 
     public List<GST_Filing> getFilings() {

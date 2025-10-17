@@ -1,18 +1,19 @@
 package com.GSTUtils.server.Model;
 
-import com.GSTUtils.server.Helper.FilingFrequency;
-import com.GSTUtils.server.Helper.ReturnMonth;
+import com.GSTUtils.server.Helper.Frequency;
+import com.GSTUtils.server.Helper.Month;
 import com.GSTUtils.server.Helper.ReturnStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "return_period")
+@Table(
+        name = "return_period",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"gstin_number", "return_month", "return_year"})
+)
 public class ReturnPeriod {
 
     @Id
@@ -21,7 +22,7 @@ public class ReturnPeriod {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "return_month", length = 20)
-    private ReturnMonth returnMonth;
+    private Month returnMonth;
 
     @Column(nullable = false, name="return_year", length = 4)
     private int returnYear;
@@ -30,15 +31,12 @@ public class ReturnPeriod {
     private ReturnStatus status;
 
     @Enumerated(EnumType.STRING)
-    private FilingFrequency frequency;
+    private Frequency frequency;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gstinID", nullable = false)
-    private GSTINMaster gstin;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "returnPeriod")
+    @JoinColumn(name = "gstin_number", referencedColumnName = "gstinNumber", nullable = false)
     @JsonIgnore
-    private List<UploadFile> files = new ArrayList<>();
+    private GSTINMaster gstin;
 
     // contain multiple GSTIN_filing from each ecom platform
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "returnPeriod")
@@ -58,11 +56,11 @@ public class ReturnPeriod {
         this.returnPeriodID = returnPeriodID;
     }
 
-    public ReturnMonth getReturnMonth() {
+    public Month getReturnMonth() {
         return returnMonth;
     }
 
-    public void setReturnMonth(ReturnMonth returnMonth) {
+    public void setReturnMonth(Month returnMonth) {
         this.returnMonth = returnMonth;
     }
 
@@ -82,11 +80,11 @@ public class ReturnPeriod {
         this.status = status;
     }
 
-    public FilingFrequency getFrequency() {
+    public Frequency getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(FilingFrequency frequency) {
+    public void setFrequency(Frequency frequency) {
         this.frequency = frequency;
     }
 
@@ -96,14 +94,6 @@ public class ReturnPeriod {
 
     public void setGstin(GSTINMaster gstin) {
         this.gstin = gstin;
-    }
-
-    public List<UploadFile> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<UploadFile> files) {
-        this.files = files;
     }
 
     public List<GST_Filing> getFilings() {
