@@ -1,6 +1,7 @@
 package com.GSTUtils.server.Controller;
 
 import com.GSTUtils.server.Exception.ReturnNotFoundException;
+import com.GSTUtils.server.Helper.Month;
 import com.GSTUtils.server.Model.ReturnPeriod;
 import com.GSTUtils.server.Service.ReturnPeriodService;
 import com.GSTUtils.server.dto.ReturnPeriodDTO;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/returns")
+@RequestMapping("/api/returns")
 public class ReturnPeriodController {
 
     private static final Logger logger = LoggerFactory.getLogger(ReturnPeriodController.class);
@@ -80,6 +81,9 @@ public class ReturnPeriodController {
         }
     }
 
+    // FOR ADMIN
+    // RETURN RETURNPERIOD IS PRESENT IN THE DB
+    // OTHERWISE CALL CREATERETURN METHOD
     @GetMapping("/gstinNumber/{gstinNumber}/month/{rtnMonth}/year/{rtnYear}/")
     public ResponseEntity<?> getReturn(@PathVariable("gstinNumber") String gstinNumber,
                                           @PathVariable("rtnMonth") String returnMonth,

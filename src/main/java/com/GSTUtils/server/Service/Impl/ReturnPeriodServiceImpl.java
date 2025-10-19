@@ -28,7 +28,7 @@ public class ReturnPeriodServiceImpl implements ReturnPeriodService {
     public ReturnPeriod createReturn(ReturnPeriodDTO returnDTO) {
 
         String gstinNumber = returnDTO.getGstinNumber();
-        Month month = Month.valueOf(returnDTO.getReturnMonth());
+        Month month = Month.fromNumber(Integer.parseInt(returnDTO.getReturnMonth()));
         int year = returnDTO.getReturnYear();
 
         // CHECK RETURN IS ALREADY CREATED OR NOT
@@ -44,7 +44,7 @@ public class ReturnPeriodServiceImpl implements ReturnPeriodService {
         ReturnPeriod returns = new ReturnPeriod();
         returns.setReturnMonth(month);
         returns.setReturnYear(year);
-        returns.setFrequency(Frequency.valueOf(returnDTO.getFrequency()));
+        returns.setFrequency(Frequency.valueOf(returnDTO.getFrequency().toUpperCase()));
         returns.setStatus(ReturnStatus.PROCESSING);
         returns.setGstin(gstin);
 
@@ -54,7 +54,7 @@ public class ReturnPeriodServiceImpl implements ReturnPeriodService {
     @Override
     public ReturnPeriod updateReturn(ReturnPeriodDTO returnDTO, long returnId) {
 
-        Month month = Month.valueOf(returnDTO.getReturnMonth());
+        Month month = Month.fromNumber(Integer.parseInt(returnDTO.getReturnMonth()));
         Frequency frequency = Frequency.valueOf(returnDTO.getFrequency());
 
         // CHECK THE COMBINATION EXIST IN THE DB
@@ -73,7 +73,7 @@ public class ReturnPeriodServiceImpl implements ReturnPeriodService {
     @Override
     public void deleteReturn(String gstinNumber, String rtnMonth, int returnYear) {
 
-        Month returnMonth = Month.valueOf(rtnMonth);
+        Month returnMonth = Month.fromNumber(Integer.parseInt(rtnMonth));
 
         // CHECK THE UNIQUE COMBINATION EXIST IN THE SYSTEM
         ReturnPeriod rtnPeriod = this.returnRepository.findByGstin_GstinNumberAndReturnMonthAndReturnYear(gstinNumber, returnMonth, returnYear)
@@ -97,7 +97,7 @@ public class ReturnPeriodServiceImpl implements ReturnPeriodService {
 
     @Override
     public ReturnPeriod getReturn(String gstinNum, String rtnMonth, int rtnYear) {
-        Month returnMonth = Month.valueOf(rtnMonth);
+        Month returnMonth = Month.fromNumber(Integer.parseInt(rtnMonth));
 
         // FETCH THE RETURN FORM DB
         return this.returnRepository.findByGstin_GstinNumberAndReturnMonthAndReturnYear(gstinNum, returnMonth, rtnYear)
